@@ -1,4 +1,4 @@
-package controllers
+package ping
 
 import (
 	"net/http"
@@ -8,16 +8,4 @@ import (
 
 func Ping(c *gin.Context) {
 	c.String(http.StatusOK, "pong")
-}
-
-func GetUser() {
-
-}
-
-func CreateUser() {
-
-}
-
-func FindtUser() {
-
 }
