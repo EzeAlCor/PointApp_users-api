@@ -3,6 +3,7 @@ package users
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/ezealcor/PointApp_users-api/domain/users"
 	"github.com/ezealcor/PointApp_users-api/services"
@@ -11,7 +12,19 @@ import (
 )
 
 func GetUser(c *gin.Context) {
-
+	userId, parseErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
+	if parseErr != nil {
+		err := errors.BadRequestError("invalid user id")
+		c.JSON(err.Status, err)
+		return
+	}
+	user := users.User{Id: userId}
+	result, err := services.GetUser(&user)
+	if err != nil {
+		c.JSON(err.Status, err)
+		return
+	}
+	c.JSON(http.StatusOK, result)
 }
 
 func CreateUser(c *gin.Context) {

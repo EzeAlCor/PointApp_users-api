@@ -4,10 +4,10 @@ import (
 	"github.com/ezealcor/PointApp_users-api/utils/errors"
 )
 
-var userDB = make(map[int]*User)
+var userDB = make(map[int64]*User)
 
 func (user *User) Get() *errors.ResponseError {
-	result, ok := userDB[int(user.Id)]
+	result, ok := userDB[int64((user.Id))]
 
 	if !ok {
 		return errors.NotFoundError("user not found")
@@ -24,13 +24,13 @@ func (user *User) Get() *errors.ResponseError {
 }
 
 func (user *User) Save() *errors.ResponseError {
-	currentUser := userDB[int(user.Id)]
+	currentUser := userDB[int64((user.Id))]
 
 	if currentUser != nil {
 		return errors.BadRequestError("user already exist")
 	}
 
-	userDB[int(user.Id)] = user
+	userDB[int64((user.Id))] = user
 
 	return nil
 }
