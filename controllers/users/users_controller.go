@@ -50,6 +50,29 @@ func CreateUser(c *gin.Context) {
 
 }
 
+func UpdateUser(c *gin.Context) {
+	var user users.User
+	err := c.ShouldBindJSON(&user)
+
+	if err != nil {
+		resError := errors.BadRequestError("invalid body request")
+		c.JSON(resError.Status, resError)
+		return
+	}
+
+	result, serviceError := services.UpdateUser(&user)
+
+	if serviceError != nil {
+		c.JSON(serviceError.Status, serviceError)
+		return
+	}
+
+	c.JSON(http.StatusCreated, result)
+
+	fmt.Println("user", user)
+
+}
+
 func SearchtUser(c *gin.Context) {
 
 }

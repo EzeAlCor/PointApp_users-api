@@ -19,6 +19,7 @@ func CreateUser(user *users.User) (*users.User, *errors.ResponseError) {
 	}
 	return user, nil
 }
+
 func GetUser(user *users.User) (*users.User, *errors.ResponseError) {
 	if user.Id <= 0 {
 		return nil, errors.BadRequestError("invalid user id")
@@ -29,4 +30,18 @@ func GetUser(user *users.User) (*users.User, *errors.ResponseError) {
 	}
 	return user, nil
 
+}
+
+func UpdateUser(user *users.User) (*users.User, *errors.ResponseError) {
+	err := user.Validate()
+	if err != nil {
+		return nil, err
+	}
+
+	errOnSave := user.Update()
+
+	if errOnSave != nil {
+		return nil, errOnSave
+	}
+	return user, nil
 }
